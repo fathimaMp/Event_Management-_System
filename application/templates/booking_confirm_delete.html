@@ -1,0 +1,6 @@
+<h2>Are you sure you want to delete "{{ booking.title }}"?</h2>
+<form method="POST">
+  {% csrf_token %}
+  <button type="submit">Yes, delete</button>
+  <a href="{% url 'booking_list' %}">Cancel</a>
+</form>

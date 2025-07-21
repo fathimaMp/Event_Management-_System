@@ -1,0 +1,7 @@
+<h2>{{ form.instance.pk|yesno:"Edit Booking,Add Booking" }}</h2>
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+<a href="{% url 'booking_list' %}">Back to list</a>

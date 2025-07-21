@@ -55,3 +55,45 @@ def venue_delete(request, pk):
         venue.delete()
         return redirect('venue_list')
     return render(request, 'venue_confirm_delete.html', {'venue': venue})
+
+
+from .models import BookingEnquiry
+from .forms import BookingForm
+
+@login_required
+def booking_list(request):
+    bookings = BookingEnquiry.objects.filter(user=request.user)
+    return render(request, 'booking_list.html', {'bookings': bookings})
+
+@login_required
+def booking_create(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.user = request.user  # Automatically assign user
+            booking.save()
+            return redirect('booking_list')
+    else:
+        form = BookingForm()
+    return render(request, 'booking_form.html', {'form': form})
+
+@login_required
+def booking_update(request, pk):
+    booking = get_object_or_404(BookingEnquiry, pk=pk, user=request.user)
+    if request.method == 'POST':
+        form = BookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            return redirect('booking_list')
+    else:
+        form = BookingForm(instance=booking)
+    return render(request, 'booking_form.html', {'form': form})
+
+@login_required
+def booking_delete(request, pk):
+    booking = get_object_or_404(BookingEnquiry, pk=pk, user=request.user)
+    if request.method == 'POST':
+        booking.delete()
+        return redirect('booking_list')
+    return render(request, 'booking_confirm_delete.html', {'booking': booking})

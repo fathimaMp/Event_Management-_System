@@ -1,0 +1,15 @@
+<h2>My Booking Enquiries</h2>
+<a href="{% url 'booking_create' %}">+ Add New Booking</a>
+<ul>
+  {% for booking in bookings %}
+    <li>
+      <strong>{{ booking.title }}</strong> at {{ booking.venue.name }}<br>
+      From {{ booking.start_date }} to {{ booking.end_date }}<br>
+      <a href="{% url 'booking_update' booking.pk %}">Edit</a> |
+      <a href="{% url 'booking_delete' booking.pk %}">Delete</a>
+    </li>
+  {% empty %}
+    <li>No bookings yet.</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'home' %}">Back to Home</a>
