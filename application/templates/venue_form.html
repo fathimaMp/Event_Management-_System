@@ -1,0 +1,7 @@
+<h2>{{ form.instance.pk|yesno:"Edit Venue,Add Venue" }}</h2>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+<a href="{% url 'venue_list' %}">Back to list</a>

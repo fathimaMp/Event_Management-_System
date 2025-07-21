@@ -1,0 +1,13 @@
+<h2>Venue List</h2>
+<a href="{% url 'venue_create' %}">Add New Venue</a>
+<ul>
+  {% for venue in venues %}
+    <li>
+      <strong>{{ venue.name }}</strong> ({{ venue.code }}) - Capacity: {{ venue.capacity }}<br>
+      <img src="{{ venue.image.url }}" width="200"><br>
+      <a href="{% url 'venue_update' venue.pk %}">Edit</a> |
+      <a href="{% url 'venue_delete' venue.pk %}">Delete</a>
+    </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'home' %}">Back to Home</a>
