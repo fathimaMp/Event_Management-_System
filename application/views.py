@@ -4,6 +4,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .models import Venue
 from .forms import VenueForm
+from .models import BookingEnquiry
+from .forms import BookingForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
+from .models import BookingEnquiry
+from .forms import BookingForm
+
+
 
 def register(request):
     if request.method == 'POST':
@@ -57,8 +65,6 @@ def venue_delete(request, pk):
     return render(request, 'venue_confirm_delete.html', {'venue': venue})
 
 
-from .models import BookingEnquiry
-from .forms import BookingForm
 
 @login_required
 def booking_list(request):
@@ -97,3 +103,12 @@ def booking_delete(request, pk):
         booking.delete()
         return redirect('booking_list')
     return render(request, 'booking_confirm_delete.html', {'booking': booking})
+
+class BookingCreateView(LoginRequiredMixin, CreateView):
+    model = BookingEnquiry
+    form_class = BookingForm
+    template_name = 'bookings/booking_form.html'
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)

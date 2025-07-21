@@ -12,14 +12,15 @@ class Venue(models.Model):
         return f"{self.name} ({self.code})"
 
 
+
 class BookingEnquiry(models.Model):
     title = models.CharField(max_length=100)
     start_date = models.DateField()
     end_date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    venues = models.ManyToManyField(Venue)  # ✅ Changed to many-to-many
 
     def __str__(self):
-        return f"{self.title} - {self.venue.name} ({self.start_date} to {self.end_date})"
+        return f"{self.title} ({self.start_date} to {self.end_date})"
 
 
